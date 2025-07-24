@@ -1,4 +1,3 @@
-// src/bot/bot.ts
 import {
   summaryChain,
   getGreetMessage,
@@ -11,7 +10,7 @@ import {
   fallbackMessage,
 } from "./chains";
 
-type Step = "greet" | "confirm_summary" | "ask_goal" | "show_options";
+type Step = "initial" | "greet" | "confirm_summary" | "ask_goal" | "show_options";
 
 export interface SessionState {
   step: Step;
@@ -24,15 +23,16 @@ export async function handleBotMessage(
   session: SessionState
 ): Promise<{ response: string; updatedSession: SessionState }> {
   switch (session.step) {
-    case "greet": {
+    case "initial": {
+      const res = await summaryChain.invoke({ goal: session.userGoal });
+      const summary = res.content as string;
       return {
-        response: getGreetMessage(session.summary),
-        updatedSession: { ...session, step: "confirm_summary" },
+        response: getGreetMessage(summary),
+        updatedSession: { ...session, summary, step: "confirm_summary" },
       };
     }
 
     case "confirm_summary": {
-        console.log("User message:", userMessage);
       if (userMessage?.toLowerCase().includes("yes")) {
         return {
           response: confirmSummaryYesMessage,
@@ -84,7 +84,7 @@ export async function handleBotMessage(
     default:
       return {
         response: fallbackMessage,
-        updatedSession: { step: "greet", summary: "", userGoal: "" },
+        updatedSession: { step: "initial", summary: "", userGoal: "" },
       };
-    }
+  }
 }
