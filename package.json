@@ -1,0 +1,28 @@
+{
+  "name": "aibotfastify",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --watch './**/*.ts' --exec 'ts-node' server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@langchain/core": "^0.3.62",
+    "@langchain/langgraph": "^0.3.6",
+    "@langchain/openai": "^0.5.18",
+    "dotenv": "^17.0.1",
+    "fastify": "^5.4.0",
+    "nodemon": "^3.1.10",
+    "zod": "^3.25.74"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
